@@ -25,12 +25,12 @@ A tool to convert QGroundControl generated .kml files into DJI Fly ready .kmz fi
    9. Click on **File** and select **Save Mission Waypoints As KML…**, choose the directory and save
       * **IF** you are using an Android device **AND** the Android conversion script, by default you should save the KML file in **"/storage/emulated/0/Downloads/"**
 3. Run the Python script and follow its instructions:
-   10. Drag & Drop the KML file (if you’re not using the Android script, in that case the script will automatically use the latest .kml file in the Downloads directory)
-   11. Choose if the drone has to hover for each waypoint (You can always change this behavior later in the DJI Fly App)
-   12. Copy the generated KMZ file to the last created folder in **“/storage/emulated/0/Android/data/dji.go.v5/files/waypoint/”** on Android or **“FILES/DJI File/wayline_mission/”** on IOS (I tried automating the Android script to copy and rename the file, but since Android 10, apps can’t access the Android/data folder anymore)
-   13. Delete the previous KMZ file in the folder
-   14. Copy the folder name
-   15. Rename the new KMZ file to the folder name (maintain the “.kmz” file extension)
+   1. Drag & Drop the KML file (if you’re not using the Android script, in that case the script will automatically use the latest .kml file in the Downloads directory)
+   2. Choose if the drone has to hover for each waypoint (**IT DOES NOT WORK PROPERLY YET**, more info at the "**WORKAROUND TO HOVER AND TAKE PICTURE** paragraph) (You can always change this behavior later in the DJI Fly App)
+   3. Copy the generated KMZ file to the last created folder in **“/storage/emulated/0/Android/data/dji.go.v5/files/waypoint/”** on Android or **“FILES/DJI File/wayline_mission/”** on IOS (I tried automating the Android script to copy and rename the file, but since Android 10, apps can’t access the Android/data folder anymore)
+   4. Delete the previous KMZ file in the folder
+   5. Copy the folder name
+   6. Rename the new KMZ file to the folder name (maintain the “.kmz” file extension)
 4. Restart **DJI Fly**
 5. Select the last mission (the dummy mission) (The thumbnail is not updated yet)
 6. Set the correct **Speed** (the same as **Hover Speed** in QGroundControl)
