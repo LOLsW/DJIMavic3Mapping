@@ -1,4 +1,4 @@
-# DJIMavic3Mapping
+# DJI Mavic 3 Mapping
 A tool to convert QGroundControl generated .kml files into DJI Fly ready .kmz files.
 
 # How to Use:
