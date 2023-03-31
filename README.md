@@ -37,6 +37,17 @@ A tool to convert QGroundControl generated .kml files into DJI Fly ready .kmz fi
 7. Set the correct **Altitude** if it's not the one you chose
 8. **FLY**
 
+## WORKAROUND TO HOVER AND TAKE PICTURE:
+1. Create the mission in QGroundControl using the **Hover and Capture Image** setting
+2. Run the python conversion script and choose to NOT use the Hover and Capture Image setting (just press Enter, if you don’t write “y” or leave it blank it’ll always default to not using it)
+3. Replace the .kmz file
+4. Open the mission in the DJI Fly app
+5. Select ANY waypoint
+6. Change its **Hover** parameter to be higher than the **Photo Interval** you’re going to use for the mission
+7. While the **Hover** parameter is still highlighted, on the top right corner of the waypoint settings tab, click **Apply to All**
+8. Click **Yes** to the prompt
+9. If you want you can save the mission - DONE!
+
 ## Known Issues
 * IF YOU EDIT THE MISSION IN ANY WAY, EVEN IF YOU DON’T SAVE THOSE CHANGES, ONCE YOU OPEN THE DJI FLY APP AGAIN YOU’LL PROBABLY SEE A GRAPHICS ISSUE. DO NOT WORRY, IT’S JUST A GRAPHICS BUG, THE MISSION WILL WORK AS INTENDED
 * Sometimes Waypoints may appear to be facing the wrong direction. I'm pretty sure it's another graphics issue, but I can't confirm
