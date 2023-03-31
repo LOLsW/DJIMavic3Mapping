@@ -42,3 +42,5 @@ A tool to convert QGroundControl generated .kml files into DJI Fly ready .kmz fi
 * Sometimes Waypoints may appear to be facing the wrong direction. I'm pretty sure it's another graphics issue, but I can't confirm
 * The converted file generated with the "Hover and Take Picture" option with the Python script doesn't work properly yet, I believe it's fixable but I haven't figured out a solution yet
 * Height issue, probably related to relative/absolute height mismatch
+
+### DISCLAIMER: I am not affiliated to any company and I do not take any responsability for anything that may happen if you use these scripts/workflows
