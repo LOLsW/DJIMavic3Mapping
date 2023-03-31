@@ -2,7 +2,7 @@
 A tool to convert QGroundControl generated .kml files into DJI Fly ready .kmz files.
 
 # How to Use:
-### I've made a video tutorial that you can watch [here](https://www.youtube.com).
+### I've made a video tutorial that you can watch [here](https://youtu.be/4k9uwlP-x5Q).
 ## Steps:
 * Download and install [Python](https://www.python.org/) or a [Python Interpreter](https://play.google.com/store/apps/details?id=org.qpython.qpy3&hl=en_US) (if on mobile devices)
 * Download and install [QGroundControl](http://qgroundcontrol.com/)
