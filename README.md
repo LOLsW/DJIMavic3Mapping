@@ -1,6 +1,9 @@
 # DJI Mavic 3 Mapping
 A tool to convert QGroundControl generated .kml files into DJI Fly ready .kmz files.
 
+# Changelog
+[Here's what's new](CHANGELOG.md)
+
 # How to Use:
 ### I've made a video tutorial that you can watch [here](https://youtu.be/4k9uwlP-x5Q).
 ## Steps:
@@ -27,10 +30,13 @@ A tool to convert QGroundControl generated .kml files into DJI Fly ready .kmz fi
 3. Run the Python script and follow its instructions:
    1. Drag & Drop the KML file (if you’re not using the Android script, in that case the script will automatically use the latest .kml file in the Downloads directory)
    2. Choose if the drone has to hover for each waypoint (**IT DOES NOT WORK PROPERLY YET**, more info at the "**WORKAROUND TO HOVER AND TAKE PICTURE** paragraph) (You can always change this behavior later in the DJI Fly App)
-   3. Copy the generated KMZ file to the last created folder in **“/storage/emulated/0/Android/data/dji.go.v5/files/waypoint/”** on Android or **“FILES/DJI File/wayline_mission/”** on IOS (I tried automating the Android script to copy and rename the file, but since Android 10, apps can’t access the Android/data folder anymore)
-   4. Delete the previous KMZ file in the folder
-   5. Copy the folder name
-   6. Rename the new KMZ file to the folder name (maintain the “.kmz” file extension)
+   3. Choose if the script has to filter waypoints based on distance:
+      1. Choose minimum distance (in meters) between two **SUCCESSIVE** waypoints
+      2. Choose the Earth model that suits your geographic region best (or leave it at default)
+   4. Copy the generated KMZ file to the last created folder in **“/storage/emulated/0/Android/data/dji.go.v5/files/waypoint/”** on Android or **“FILES/DJI File/wayline_mission/”** on IOS (I tried automating the Android script to copy and rename the file, but since Android 10, apps can’t access the Android/data folder anymore)
+   5. Delete the previous KMZ file in the folder
+   6. Copy the folder name
+   7. Rename the new KMZ file to the folder name (maintain the “.kmz” file extension)
 4. Restart **DJI Fly**
 5. Select the last mission (the dummy mission) (The thumbnail is not updated yet)
 6. Set the correct **Speed** (the same as **Hover Speed** in QGroundControl)
@@ -52,6 +58,5 @@ A tool to convert QGroundControl generated .kml files into DJI Fly ready .kmz fi
 * IF YOU EDIT THE MISSION IN ANY WAY, EVEN IF YOU DON’T SAVE THOSE CHANGES, ONCE YOU OPEN THE DJI FLY APP AGAIN YOU’LL PROBABLY SEE A GRAPHICS ISSUE. DO NOT WORRY, IT’S JUST A GRAPHICS BUG, THE MISSION WILL WORK AS INTENDED
 * Sometimes Waypoints may appear to be facing the wrong direction. I'm pretty sure it's another graphics issue, but I can't confirm
 * The converted file generated with the "Hover and Take Picture" option with the Python script doesn't work properly yet, I believe it's fixable but I haven't figured out a solution yet
-* Height issue, probably related to relative/absolute height mismatch
 
 ### DISCLAIMER: I am not affiliated to any company and I do not take any responsability for anything that may happen if you use these scripts/workflows
