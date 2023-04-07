@@ -161,6 +161,7 @@ WAYPOINT_AG_HOVER_TEMPLATE = Template("""
         </wpml:actionGroup>
 """)
 
+# These will be used to remove waypoints that are too close to each other
 # Vicenty's Formula (could be replaced by 'geopy.distance.distance().m' if you have 'geopy' installed (Remember to 'import geopy'))
 ELLIPSOIDS = {
     'WGS-84':        (6378137,     6356752.3142,  1 / 298.257223563), # General
@@ -230,7 +231,6 @@ def vicentyFormula(point_a, point_b, model=ELLIPSOIDS["WGS-84"]):
     return s
 
 # Haversine Formula
-# These will be used to remove waypoints that are too close to each other
 EARTH_RADIUS = 6372.795
 def haversineFormula(a, b):
     dlat = (b[0] - a[0]) * math.pi / 180
