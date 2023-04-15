@@ -40,8 +40,7 @@ A tool to convert QGroundControl generated .kml files into DJI Fly ready .kmz fi
 4. Restart **DJI Fly**
 5. Select the last mission (the dummy mission) (The thumbnail is not updated yet)
 6. Set the correct **Speed** (the same as **Hover Speed** in QGroundControl)
-7. Set the correct **Altitude** if it's not the one you chose
-8. **FLY**
+7. **FLY**
 
 ## WORKAROUND TO HOVER AND TAKE PICTURE:
 1. Create the mission in QGroundControl using the **Hover and Capture Image** setting
