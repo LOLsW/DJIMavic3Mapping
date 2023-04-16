@@ -261,7 +261,7 @@ def sortDate(lst):
 
 if __name__ == "__main__":
     
-    hover_and_take = input("Hover and Take Picture? [Y/N] (Defaults to False) ")
+    hover_and_take = input("Hover and Take Picture? [Y/N] (DOES NOT WORK YET) (Defaults to False) ")
     if hover_and_take:
         hover_and_take = True if hover_and_take.lower() == "y" else False
     else:

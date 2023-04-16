@@ -1,3 +1,6 @@
+## 2023-04-16
+- \[**ADDED**\] The scripts now warn the user that the "Hover and Take Picture" option does not work yet
+
 ## 2023-04-05
 - \[**ADDED**\] Option for waypoint filtering based on distance between **SUCCESSIVE** waypoints. It include several Earth models to calculate the most accurate distance based on geographic region
 - \[**ADDED**\] When using "djiMappingConverter.py", once the processing is done, the script will wait for input before it closes (allowing you to view the output path if the script is run by double clicking)
