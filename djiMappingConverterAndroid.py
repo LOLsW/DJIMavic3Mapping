@@ -55,16 +55,12 @@ HEAD_TEMPLATE = Template("""<?xml version="1.0" encoding="UTF-8"?>
   </Document>
 </kml>""")
 
-GLOBAL_SETTINGS_TEMPLATE = Template("""
-
-""")
-
 WAYPOINT_TEMPLATE = Template("""
       <Placemark>
         <Point>
-            <coordinates>
-                $lon $lat
-            </coordinates>
+          <coordinates>
+            $lon,$lat
+          </coordinates>
         </Point>
         <wpml:index>$index</wpml:index>
         <wpml:executeHeight>$height</wpml:executeHeight>
@@ -73,7 +69,7 @@ WAYPOINT_TEMPLATE = Template("""
           <wpml:waypointHeadingMode>followWayline</wpml:waypointHeadingMode>
           <wpml:waypointHeadingAngle>0</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
-          <wpml:waypointHeadingAngleEnable>1</wpml:waypointHeadingAngleEnable>
+          <wpml:waypointHeadingAngleEnable>$heading_angle_enable</wpml:waypointHeadingAngleEnable>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
         </wpml:waypointHeadingParam>
         <wpml:waypointTurnParam>
@@ -83,35 +79,6 @@ WAYPOINT_TEMPLATE = Template("""
         <wpml:useStraightLine>1</wpml:useStraightLine>$action_group
       </Placemark>
 """)
-
-FIRST_WAYPOINT_AG = """
-        <wpml:actionGroup>
-          <wpml:actionGroupId>1</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>0</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>0</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>parallel</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action>
-            <wpml:actionId>1</wpml:actionId>
-            <wpml:actionActuatorFunc>gimbalRotate</wpml:actionActuatorFunc>
-            <wpml:actionActuatorFuncParam>
-              <wpml:gimbalHeadingYawBase>aircraft</wpml:gimbalHeadingYawBase>
-              <wpml:gimbalRotateMode>absoluteAngle</wpml:gimbalRotateMode>
-              <wpml:gimbalPitchRotateEnable>1</wpml:gimbalPitchRotateEnable>
-              <wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle>
-              <wpml:gimbalRollRotateEnable>0</wpml:gimbalRollRotateEnable>
-              <wpml:gimbalRollRotateAngle>0</wpml:gimbalRollRotateAngle>
-              <wpml:gimbalYawRotateEnable>0</wpml:gimbalYawRotateEnable>
-              <wpml:gimbalYawRotateAngle>0</wpml:gimbalYawRotateAngle>
-              <wpml:gimbalRotateTimeEnable>0</wpml:gimbalRotateTimeEnable>
-              <wpml:gimbalRotateTime>0</wpml:gimbalRotateTime>
-              <wpml:payloadPositionIndex>0</wpml:payloadPositionIndex>
-            </wpml:actionActuatorFuncParam>
-          </wpml:action>
-        </wpml:actionGroup>
-"""
 
 WAYPOINT_AG_TEMPLATE = Template("""
         <wpml:actionGroup>
@@ -144,18 +111,18 @@ WAYPOINT_AG_TEMPLATE = Template("""
 
 WAYPOINT_AG_HOVER_TEMPLATE = Template("""
         <wpml:actionGroup>
-          <wpml:actionGroupId>$agId</wpml:actionGroupId>
+          <wpml:actionGroupId>1</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>$index</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>$index</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
+          <wpml:actionGroupMode>parallel</wpml:actionGroupMode>
           <wpml:actionTrigger>
             <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
           </wpml:actionTrigger>
           <wpml:action>
             <wpml:actionId>$aId</wpml:actionId>
-            <wpml:actionActuatorFunc>hover</wpml:actionActuatorFunc>
+            <wpml:actionActuatorFunc>takePhoto</wpml:actionActuatorFunc>
             <wpml:actionActuatorFuncParam>
-              <wpml:hoverTime>3</wpml:hoverTime>
+              <wpml:payloadPositionIndex>0</wpml:payloadPositionIndex>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
         </wpml:actionGroup>
@@ -261,7 +228,13 @@ def sortDate(lst):
 
 if __name__ == "__main__":
     
-    hover_and_take = input("Hover and Take Picture? [Y/N] (DOES NOT WORK YET) (Defaults to False) ")
+    setGimbal = input("Set Gimbal Pitch to -90°? [Y/N] (Defaults to True, only applies if not using 'Take Picture at each Waypoint') ")
+    if setGimbal:
+        setGimbal = False if setGimbal.lower() == "n" else True
+    else:
+        setGimbal = True
+
+    hover_and_take = input("Take Picture at each Waypoint? [Y/N] (Defaults to False) ")
     if hover_and_take:
         hover_and_take = True if hover_and_take.lower() == "y" else False
     else:
@@ -333,16 +306,17 @@ if __name__ == "__main__":
     # Write 'waylines.wpml' file
     #waylines_file = HEAD_TEMPLATE.substitute(waypoints=[WAYPOINT_TEMPLATE.substitute(lon=w[1], lat=w[0], index=shape_coordinates.index(w), height=altitude) for w in shape_coordinates])
     waylines_file = ""
-    action_group_id = 2
-    action_id = 2
+    action_group_id = 1
+    action_id = 1
     skip = False # Used to skip waypoints too close to each other
     skipped = 0  # Keep track of how many waypoints are skipped (to fix waypoint index)
+    skip_distance = 0
     for w in shape_coordinates:
         indx = shape_coordinates.index(w)
         ag = ""
 
         if skip:
-            print(f"Skipped waypoint {indx}")
+            print(f"Skipped waypoint {indx} (Distance: {round(skip_distance, 2)} m)")
             skipped += 1
             skip = False
             continue
@@ -351,20 +325,31 @@ if __name__ == "__main__":
             if indx != len(shape_coordinates) - 1: # Check if we're writing the last waypoint
                 distance = vicentyFormula(w, shape_coordinates[indx + 1], ELLIPSOIDS[list(ELLIPSOIDS.keys())[earth_model]]) if earth_model != 6 else haversineFormula(w, shape_coordinates[indx + 1])
                 if distance < waypoint_distance_threshold:
-                    skip = True
+                    if indx == len(shape_coordinates) - 2: # If it's the second-last waypoint skip this one instead of the last (because we may need to set the last waypoint heading differently)
+                        skipped += 1
+                        print(f"Skipped waypoint {indx} (Distance: {round(distance, 2)} m)")
+                        continue
+                    else:
+                        skip = True
+                        skip_distance = distance
 
-        if indx == 0:
-            ag += FIRST_WAYPOINT_AG + WAYPOINT_AG_TEMPLATE.substitute(index=indx, agId=action_group_id, aId=action_id)
-        #elif indx == len(shape_coordinates) - 1:
-        #    ag = ""
+        if indx == len(shape_coordinates) - 1:
+            ag = ""
+        elif hover_and_take:
+            ag += WAYPOINT_AG_HOVER_TEMPLATE.substitute(index=indx-skipped, aId=action_id)
+            action_id += 1
+            action_group_id += 1
+            heading_angle_enable = 1 if indx == 0 or indx == len(shape_coordinates) - 1 else 0
         else:
-            if hover_and_take:
-                ag += WAYPOINT_AG_HOVER_TEMPLATE.substitute(index=indx-skipped, agId=action_group_id, aId=action_id)
+            heading_angle_enable = 1
+            if setGimbal:
+                ag += WAYPOINT_AG_TEMPLATE.substitute(index=indx-skipped, agId=action_group_id, aId=action_id)
+                action_id += 1
+                action_group_id += 1
             else:
-              ag += WAYPOINT_AG_TEMPLATE.substitute(index=indx-skipped, agId=action_group_id, aId=action_id)
-        action_id += 1
-        action_group_id += 1
-        waylines_file += WAYPOINT_TEMPLATE.substitute(lon=w[0], lat=w[1], index=indx, height=w[2] - excess_height, action_group=ag)
+                ag = ""
+        
+        waylines_file += WAYPOINT_TEMPLATE.substitute(lon=w[0], lat=w[1], index=indx, height=w[2] - excess_height, heading_angle_enable=heading_angle_enable, action_group=ag)
 
     waylines = HEAD_TEMPLATE.substitute(waypoints=waylines_file)
     waylines = "\n".join([s.rstrip() for s in waylines.splitlines() if s.strip()])
