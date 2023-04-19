@@ -30,7 +30,7 @@ A tool to convert QGroundControl generated .kml files into DJI Fly ready .kmz fi
 3. Run the Python script and follow its instructions:
    1. Drag & Drop the KML file (if you’re not using the Android script, in that case the script will automatically use the latest .kml file in the Downloads directory)
    2. Choose if every waypoint has to set Gimbal Pitch to -90° (Default behaviour) (Setting this to False is best for Photogrammetry/Structure Scan Missions)
-   3. Choose if the drone has to take a picture for each waypoint (**IT DOES NOT HOVER**, more info at the "**WORKAROUND TO HOVER AND TAKE PICTURE** paragraph) (You can always change this behavior later in the DJI Fly App)
+   3. Choose if the drone has to take a picture for each waypoint (**IT DOES NOT HOVER**, more info at the "**WORKAROUND TO HOVER AND TAKE PICTURE** paragraph) (You may run into problem when **RELOADING** the mission, have a look at the [Known Issues](https://github.com/LOLsW/DJIMavic3Mapping#known-issues) section)
    4. Choose if the script has to filter waypoints based on distance:
       1. Choose minimum distance (in meters) between two **SUCCESSIVE** waypoints
       2. Choose the Earth model that suits your geographic region best (or leave it at default)
@@ -41,7 +41,17 @@ A tool to convert QGroundControl generated .kml files into DJI Fly ready .kmz fi
 4. Restart **DJI Fly**
 5. Select the last mission (the dummy mission) (The thumbnail is not updated yet)
 6. Set the correct **Speed** (the same as **Hover Speed** in QGroundControl)
-7. **FLY**
+7. Make sure that the last waypoint's settings are as follows:
+   | Action | Value |
+   |--------|-------|
+   | Camera Action | None |
+   | Altitude | (Any Value) |
+   | Speed | Global Speed |
+   | Heading | Follow Course |
+   | Gimbal Tilt | Manual |
+   | Zoom | Manual |
+   | Hover | 0s |
+9. **FLY**
 
 ## WORKAROUND TO HOVER AND TAKE PICTURE:
 1. Create the mission in QGroundControl using the **Hover and Capture Image** setting
@@ -58,6 +68,7 @@ A tool to convert QGroundControl generated .kml files into DJI Fly ready .kmz fi
 
 ## Known Issues
 * IF YOU EDIT THE MISSION IN ANY WAY, EVEN IF YOU DON’T SAVE THOSE CHANGES, ONCE YOU OPEN THE DJI FLY APP AGAIN YOU’LL PROBABLY SEE A GRAPHICS ISSUE. DO NOT WORRY, IT’S JUST A GRAPHICS BUG, THE MISSION WILL WORK AS INTENDED
+* If you use the "**Take Picture at each Waypoint**" option, when you reload the mission (even if you don't change anything in it) DJI Fly will automatically add a "Take Photo" to the last waypoint. You **MUST** set that back to "None" and remove any other setting from the last waypoint before starting the mission
 * Sometimes Waypoints may appear to be facing the wrong direction. It's just another graphics issue
 
 ### DISCLAIMER: I am not affiliated to any company and I do not take any responsability for anything that may happen if you use these scripts/workflows
